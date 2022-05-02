@@ -20,21 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-//
 //  Model.swift
 //  
 //
-//  Created by Mohammad Yasir on 01/05/22.
+//  Created by Mohammad Yasir on 02/05/22.
 //
 
-import UIKit
+import SwiftUI
 
-extension Upstream {
-    struct iTuneResponseModel: Codable {
-        var results: [ResultArray]
+public extension UpstreamButton.Upstream {
+    
+    struct iTuneResponse: Codable {
+        public var results: [ResultResponse] = []
     }
     
-    struct ResultArray: Codable {
-        var version: String
+    struct ResultResponse: Codable {
+        public var releaseNotes: String = ""
+        public var description: String = ""
+        public var version: String = ""
+        public var trackViewUrl: String = ""
     }
+    
 }

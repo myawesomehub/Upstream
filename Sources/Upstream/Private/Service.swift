@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-//  Enum.swift
+//  Service.swift
 //  
 //
 //  Created by Mohammad Yasir on 02/05/22.
@@ -29,16 +29,37 @@
 import SwiftUI
 
 public extension UpstreamButton.Upstream {
-    enum UpdateStatus {
-        case updateAvailable
-        case updateNotAvailable
-    }
-}
-
-public extension UpstreamButton.Upstream {
-    enum iTuneApiFailure: Error {
-        case dataNotFound
-        case wrongURL
-        case timeOut
+    struct iTuneApiManager {
+        static func getAppInformation(appID: String, completion: @escaping (Result<iTuneResponse, iTuneApiFailure>) -> ()) -> Void {
+            
+            let url = "https://itunes.apple.com/lookup?id=\(appID)"
+            
+            guard let safeURL = URL(string: url) else {
+                completion(.failure(.wrongURL))
+                return
+            }
+            
+            var request = URLRequest(url: safeURL)
+            request.httpMethod = "GET"
+            
+            let session = URLSession(configuration: .default)
+            
+            session.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    completion(.failure(.timeOut))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let decodedData = try decoder.decode(iTuneResponse.self, from: data)
+                    completion(.success(decodedData))
+                } catch {
+                    completion(.failure(.dataNotFound))
+                }
+                
+            }
+            .resume()
+        }
     }
 }

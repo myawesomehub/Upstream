@@ -22,29 +22,35 @@
 
 import UIKit
 
-public class Upstream {
+public struct UpstreamButton: View {
+    @ObservedObject private var upstream: Upstream
     
-    public init() { }
+    public init(upstream: Upstream) {
+        self.upstream = upstream
+    }
     
-    public func fetchStatus(appID: String, completion: @escaping (Status) -> ()) -> Void {
-        iTuneApiManager.getVersion(appID: appID) { result in
-            switch result {
-            case .success(let data):
-                guard let appstoreAppVersion = data.results.first?.version else {
-                    completion(.failed(NetworkError.dataNotFound))
-                    return
+    public var body: some View {
+        VStack {
+            switch upstream.updateStatus {
+            case .updateNotAvailable:
+                EmptyView()
+            case .updateAvailable:
+                Button {
+                    upstream.showUpstreamView = true
+                } label: {
+                    Text("UPDATE")
+                        .bold()
+                        .foregroundColor(.blue)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .background(Color.hexValue("#EEEEEF"))
+                        .cornerRadius(12)
                 }
-                
-                let localAppVersion = UIApplication.appVersion
-                
-                if appstoreAppVersion == localAppVersion {
-                    completion(.sameVersion(version: appstoreAppVersion))
-                } else {
-                    completion(.notSameVersion(appstoreVersion: localAppVersion, localAppVersion: appstoreAppVersion))
-                }
-            case .failure(let error):
-                completion(.failed(error))
+
             }
+        }
+        .sheet(isPresented: $upstream.showUpstreamView) {
+            UpstreamView(upstream: upstream)
         }
     }
 }

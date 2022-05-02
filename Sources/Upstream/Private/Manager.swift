@@ -20,48 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-//
 //  Manager.swift
 //  
 //
-//  Created by Mohammad Yasir on 01/05/22.
+//  Created by Mohammad Yasir on 02/05/22.
 //
 
-import UIKit
+import SwiftUI
 
-extension Upstream {
-    struct iTuneApiManager {
-        static func getVersion(appID: String, completion: @escaping (Result<iTuneResponseModel, NetworkError>) -> ()) -> Void {
-            
-            let url = "https://itunes.apple.com/lookup?id=\(appID)"
-            
-            guard let safeURL = URL(string: url) else {
-                completion(.failure(.wrongURL))
-                return
-            }
-            
-            var request = URLRequest(url: safeURL)
-            request.httpMethod = "GET"
-            
-            let session = URLSession(configuration: .default)
-            
-            session.dataTask(with: request) { data, response, error in
-                guard let data = data else {
-                    completion(.failure(.timeOut))
-                    return
+extension UpstreamButton {
+    public class Upstream: ObservableObject {
+        
+        @Published public var data: ResultResponse = .init()
+        @Published public var showUpstreamView: Bool = false
+        @Published public var updateStatus: UpdateStatus = .updateNotAvailable
+        
+        public init(appId: String) {
+            fetchStatus(appID: appId)
+        }
+        
+        public func fetchStatus(appID: String) -> Void {
+            iTuneApiManager.getAppInformation(appID: appID) { result in
+                switch result {
+                case .success(let data):
+                    if let data = data.results.first {
+                        if data.version != UIApplication.appVersion {
+                            DispatchQueue.main.async {
+                                self.updateStatus = .updateAvailable
+                                self.data = data
+                            }
+                        }
+                    }
+                    print("Data:", data)
+                case .failure(let error):
+                    print("ERRORR: ", error.localizedDescription)
                 }
-                
-                do {
-                    let decoder = JSONDecoder()
-                    let decodedData = try decoder.decode(iTuneResponseModel.self, from: data)
-                    completion(.success(decodedData))
-                } catch {
-                    completion(.failure(.dataNotFound))
-                }
-                
             }
-            .resume()
         }
     }
 }
-
