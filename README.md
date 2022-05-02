@@ -32,4 +32,6 @@ private func getStatus() -> Void {
 
 ```
 
+## License
+
 Upstream is licensed under the [MIT License](https://github.com/myawesomehub/Upstream/blob/main/LICENSE).
