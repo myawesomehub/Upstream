@@ -24,11 +24,13 @@ import SwiftUI
 
 public struct UpstreamButton: View {
     @ObservedObject private var upstream: Upstream
+    public var showFeatureSheet: Bool
     
-    public init(upstream: Upstream) {
+    public init(upstream: Upstream, showFeatureSheet: Bool) {
         self.upstream = upstream
+        self.showFeatureSheet = showFeatureSheet
     }
-    
+
     public var body: some View {
         VStack {
             switch upstream.updateStatus {
@@ -36,7 +38,13 @@ public struct UpstreamButton: View {
                 EmptyView()
             case .updateAvailable:
                 Button {
-                    upstream.showUpstreamView = true
+                    if showFeatureSheet {
+                        upstream.showUpstreamView = true
+                    } else {
+                        if let url = URL(string: upstream.data.trackViewUrl) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
                 } label: {
                     Text("UPDATE")
                         .bold()
