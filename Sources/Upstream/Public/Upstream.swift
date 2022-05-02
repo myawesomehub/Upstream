@@ -25,8 +25,8 @@ import SwiftUI
 public struct UpstreamButton: View {
     @ObservedObject private var upstream: Upstream
     public var showFeatureSheet: Bool
-    
-    public init(upstream: Upstream, showFeatureSheet: Bool) {
+
+    public init(_ upstream: Upstream, showFeatureSheet: Bool) {
         self.upstream = upstream
         self.showFeatureSheet = showFeatureSheet
     }
