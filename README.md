@@ -1,4 +1,4 @@
-## What is Upstream?
+<!-- ## What is Upstream?
 
 Upstream allows you to play with the **information** you have **on appstore** for your app. Such as version info.
 
@@ -30,7 +30,7 @@ private func getStatus() -> Void {
     }
 }
 
-```
+``` -->
 
 ## License
 
