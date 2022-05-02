@@ -1,6 +1,6 @@
 ## What is Upstream?
 
-Upstream allows you to play with the information you have on appstore for your app.
+Upstream allows you to play with the **information** you have **on appstore** for your app. Such as version info.
 
 ## Features
 - [x] Get app update status of your app. `case sameVersion` and `case notSameVersion`
