@@ -31,7 +31,7 @@ import UIKit
 extension Upstream {
     public enum Status {
         case sameVersion(version: String)
-        case notSaveVersion(appstoreVersion: String, localAppVersion: String)
+        case notSameVersion(appstoreVersion: String, localAppVersion: String)
         case failed(Error)
     }
 }
