@@ -1,6 +1,9 @@
 ## What is Upstream?
 
-Get the **app version** information from **appstore** for your app. 
+Upstream allows you to play with the information you have on appstore for your app.
+
+## Features
+- [x] Get app update status of your app. `case sameVersion` and `case notSameVersion`
 
 ## How to use it?
 
@@ -13,13 +16,13 @@ private let upstream: Upstream = .init()
 
 private func getStatus() -> Void {
     
-    let appID: String = "YOUR APPID"
+    let appID: String = "YOUR APP ID"
     
     upstream.fetchStatus(appID: appID) { status in
         switch status {
         case .sameVersion(let version):
             print("Current app and appstore version is same as \(version)")
-        case .notSaveVersion(let appstoreVersion, let localAppVersion):
+        case .notSameVersion(let appstoreVersion, let localAppVersion):
             print("Current app and appstore version is not same. On Appstore: \(appstoreVersion) and local is: \(localAppVersion)")
         case .failed(let error):
             print("Failed with error: \(error.localizedDescription)")
