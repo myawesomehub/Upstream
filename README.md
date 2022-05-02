@@ -4,7 +4,21 @@ It gives you a **magic** button, because this button will **only appear** when t
 
 <img src="https://github.com/myawesomehub/Upstream/blob/main/Asset/updateButton.png">
 
+## How to use it?
+- Import this library as swift package in your project.
+- Get the app Id from app store connect for your app. [Tutorial](https://github.com/myawesomehub/Upstream/blob/main/Asset/GetAppleIdForApp.png)
+- Follow the below snippet
 
+```swift
+import SwiftUI
+import Upstream
+
+struct ContentView: View {
+    var body: some View {
+        UpstreamButton(.init(appId: "1618653423"), showFeatureSheet: false)
+    }
+}
+```
 
 ## License
 
