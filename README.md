@@ -1,6 +1,6 @@
 ## What is Upstream?
 
-It gives you a **magic** button, because this button will **only appear** when there is an app **update available** on appstore for given app. 
+It gives you a **magic** button, because this button will **only appear** when there is an app **update available** on appstore for **given app**. 
 
 <img src="https://github.com/myawesomehub/Upstream/blob/main/Asset/updateButton.png">
 
